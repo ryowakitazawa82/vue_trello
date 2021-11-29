@@ -5,10 +5,9 @@ Vue.use(Vuex)
 
 const savedLists = localStorage.getItem('trello-lists')
 
-
-const store = new Vuex.Store({
+const store =  new Vuex.Store({
   state: {
-      lists: savedLists ? JSON.parse(savedLists): [
+    lists: savedLists ? JSON.parse(savedLists): [
       {
         title: 'Backlog',
         cards: [
@@ -35,8 +34,11 @@ const store = new Vuex.Store({
     removelist(state, payload) {
       state.lists.splice(payload.listIndex, 1)
     },
-    addCardToList(context, payload) {
-      context.commit('addCardToList', payload)
+    addCardToList(state, payload) {
+      state.lists[payload.listIndex].cards.push({ body: payload.body })
+    },
+    removeCardFromList(state, payload) {
+      state.lists[payload.listIndex].cards.splice(payload.cardIndex, 1)
     },
   },
   actions: {
@@ -49,9 +51,12 @@ const store = new Vuex.Store({
     addCardToList(context, payload) {
       context.commit('addCardToList', payload)
     },
+    removeCardFromList(context, payload) {
+      context.commit('removeCardFromList', payload)
+    },
   },
   getters: {
-  }
+  },
 })
 
 store.subscribe((mutation, state) => {
