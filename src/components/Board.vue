@@ -1,7 +1,7 @@
 <template>
 <div>
     <header>
-      my Trello
+      my Trello App
     </header>
     <main>
         <p class="info-line">All: {{ totalCardCount }} tasks</p>
